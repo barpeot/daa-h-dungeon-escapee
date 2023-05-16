@@ -10,7 +10,7 @@ WIDTH = 900
 HEIGHT = 950
 FPS = 60
 
-level = boards
+level = copy.deepcopy(boards)
 
 screen = pygame.display.set_mode([WIDTH, HEIGHT])
 pygame.display.set_caption('DUNGEON ESCAPEE')
@@ -19,9 +19,29 @@ main_menu = True
 font = pygame.font.Font('freesansbold.ttf', 20)
 font_title = pygame.font.Font('freesansbold.ttf', 50)
 
+player_current_sprite = 0
+player_images = pygame.transform.scale(pygame.image.load(f'assets/player_images/player_down_1.png'), (45, 45))
 
-player_images = pygame.transform.scale(pygame.image.load(f'assets/player_images/{2}.png'), (45, 45))
-key_images = pygame.transform.scale(pygame.image.load(f'assets/misc/Keris(50).png'), (45, 45))
+player_spritelist_up = []
+player_spritelist_down = []
+player_spritelist_side = []
+
+player_spritelist_down.append(pygame.transform.scale(pygame.image.load(f'assets/player_images/player_down_{1}.png'), (45, 45)))
+player_spritelist_down.append(pygame.transform.scale(pygame.image.load(f'assets/player_images/player_down_{2}.png'), (45, 45)))
+player_spritelist_down.append(pygame.transform.scale(pygame.image.load(f'assets/player_images/player_down_{3}.png'), (45, 45)))
+player_spritelist_down.append(pygame.transform.scale(pygame.image.load(f'assets/player_images/player_down_{4}.png'), (45, 45)))
+
+player_spritelist_up.append(pygame.transform.scale(pygame.image.load(f'assets/player_images/player_up_{1}.png'), (45, 45)))
+player_spritelist_up.append(pygame.transform.scale(pygame.image.load(f'assets/player_images/player_up_{2}.png'), (45, 45)))
+player_spritelist_up.append(pygame.transform.scale(pygame.image.load(f'assets/player_images/player_up_{3}.png'), (45, 45)))
+player_spritelist_up.append(pygame.transform.scale(pygame.image.load(f'assets/player_images/player_up_{4}.png'), (45, 45)))
+
+player_spritelist_side.append(pygame.transform.scale(pygame.image.load(f'assets/player_images/player_side_{1}.png'), (45, 45)))
+player_spritelist_side.append(pygame.transform.scale(pygame.image.load(f'assets/player_images/player_side_{2}.png'), (45, 45)))
+player_spritelist_side.append(pygame.transform.scale(pygame.image.load(f'assets/player_images/player_side_{3}.png'), (45, 45)))
+player_spritelist_side.append(pygame.transform.scale(pygame.image.load(f'assets/player_images/player_side_{4}.png'), (45, 45)))
+
+key_images = pygame.transform.scale(pygame.image.load(f'assets/misc/key.png'), (45, 45))
 blinky_img = pygame.transform.scale(pygame.image.load(f'assets/ghost_images/red.png'), (45, 45))
 pinky_img = pygame.transform.scale(pygame.image.load(f'assets/ghost_images/pink.png'), (45, 45))
 inky_img = pygame.transform.scale(pygame.image.load(f'assets/ghost_images/blue.png'), (45, 45))
@@ -46,8 +66,8 @@ inky_x = 440
 inky_y = 388
 inky_direction = 2
 
-pinky_x = 440
-pinky_y = 350
+pinky_x = 422
+pinky_y = 322
 pinky_direction = 2
 
 clyde_x = 800
@@ -72,7 +92,7 @@ pinky_box = False
 powerup = False
 eaten_ghost = [False, False, False, False]
 
-ghost_speeds = [0, 0, 0, 0]
+ghost_speeds = [2, 2, 2, 2]
 
 
 #                Right  Left   Up     Down
@@ -321,9 +341,9 @@ class Ghost:
                 else:
                     self.y_pos += self.speed
         if self.x_pos < -30:
-            self.x_pos = 900
+            self.direction = 0
         elif self.x_pos > 900:
-            self.x_pos - 30
+            self.direction = 1
         return self.x_pos, self.y_pos, self.direction
     
 def draw_misc():
@@ -343,7 +363,7 @@ def draw_misc():
         pygame.draw.rect(screen, 'dark gray', [70, 220, 760, 260], 0, 10)
         gameover_text = font.render('Game over! Space bar to restart!', True, 'red')
         screen.blit(gameover_text, (100, 300))
-        gameover_text = font.render('Press \'m\' to change leve!', True, 'black')
+        gameover_text = font.render('Press \'m\' to change level!', True, 'black')
         screen.blit(gameover_text, (100, 350))
 
 def draw_board(obtain_key):
@@ -396,13 +416,13 @@ def check_collisions(obtain_key, game_won):
 def draw_player():
     # R L U D
     if direction == 0:
-        screen.blit(player_images, (player_x, player_y))
+        screen.blit(pygame.transform.flip(player_spritelist_side[counter // 5], True, False), (player_x, player_y))
     elif direction == 1:
-        screen.blit(pygame.transform.flip(player_images, True, False), (player_x, player_y))
+        screen.blit(player_spritelist_side[counter // 5], (player_x, player_y))
     elif direction == 2:
-        screen.blit(pygame.transform.rotate(player_images, 90), (player_x, player_y))
+        screen.blit(player_spritelist_up[counter // 5], (player_x, player_y))
     elif direction == 3:
-        screen.blit(pygame.transform.rotate(player_images, 270), (player_x, player_y))
+        screen.blit(player_spritelist_down[counter // 5], (player_x, player_y))
 
 def check_position(center_x, center_y):
     turns = [False, False, False, False]
@@ -591,8 +611,6 @@ while run:
                 game_over = True      
             if player_circle.colliderect(clyde.rect):
                 game_over = True
-        
-        
 
         turns_allowed = check_position(center_x, center_y)
 
