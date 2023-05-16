@@ -34,6 +34,8 @@ level_game = ' '
 
 player_x = 450
 player_y = 663
+center_x = 0
+center_y = 0
 direction = 0
 
 blinky_x = 56
@@ -70,7 +72,7 @@ pinky_box = False
 powerup = False
 eaten_ghost = [False, False, False, False]
 
-ghost_speeds = [2, 2, 2, 2]
+ghost_speeds = [0, 0, 0, 0]
 
 
 #                Right  Left   Up     Down
@@ -80,7 +82,8 @@ direction_command = 0
 player_speed = 2
 
 time = 0
-obtain_key = False
+# obtain_key = False
+obtain_key = 0
 
 game_over = False
 game_won = False
@@ -367,10 +370,10 @@ def draw_board(obtain_key):
                 pygame.draw.arc(screen, 'blue',
                                 [(j * num2 - (num2 * 0.4)) - 2, (i * num1 - (0.4 * num1)), num2, num1], 3 * math.pi / 2,
                                 2 * math.pi, 3)
-            if level[i][j] == 9 and not obtain_key:
+            if level[i][j] == 9 and not obtain_key == 3:
                 pygame.draw.line(screen, 'white', (j * num2, i * num1 + (0.5 * num1)),
                                  (j * num2 + num2, i * num1 + (0.5 * num1)), 3)
-            if level[i][j] == 9 and obtain_key:
+            if level[i][j] == 9 and obtain_key == 3:
                 level[i][j] = 0
             if level[i][j] == 1:
                 # pygame.draw.circle(screen, 'white', (j * num2 + (0.5 * num2), i * num1 + (0.5 * num1)), 10)
@@ -382,7 +385,7 @@ def check_collisions(obtain_key, game_won):
     if 0 < player_x < 870:
         if level[center_y // num1][center_x // num2] == 1:
             level[center_y // num1][center_x // num2] = 0
-            obtain_key = True
+            obtain_key += 1
 
         if level[center_y // num1][center_x // num2] == 2:
             level[center_y // num1][center_x // num2] = 0
@@ -635,7 +638,11 @@ while run:
                 clyde_dead = False
                 pinky_dead = False
                 score = 0
+
+                obtain_key = 0
+
                 level = copy.deepcopy(boards)
+
                 game_over = False
                 game_won = False
             if event.key == pygame.K_RIGHT:
@@ -678,7 +685,13 @@ while run:
                 clyde_dead = False
                 pinky_dead = False
                 score = 0
+
+                obtain_key = 0
+
                 level = copy.deepcopy(boards)
+
+                #level[]
+
                 game_over = False
                 game_won = False
 
@@ -705,7 +718,7 @@ while run:
         player_x = -47
     elif player_x < -50:
         player_x = 897
-    
+
     pygame.display.flip()
 
 pygame.quit()
