@@ -13,7 +13,7 @@ FPS = 60
 level = copy.deepcopy(boards)
 
 screen = pygame.display.set_mode([WIDTH, HEIGHT])
-pygame.display.set_caption('DUNGEON ESCAPE')
+pygame.display.set_caption('DUNGEON ESCAPEE')
 timer = pygame.time.Clock()
 main_menu = True
 font = pygame.font.Font('freesansbold.ttf', 20)
@@ -348,7 +348,7 @@ class Ghost:
     
     def move_inky(self):
             # r, l, u, d
-            # inky turns up or down at any point to purssue, but left and right only on collision
+            # inky turns up or down at any point to pursue, but left and right only on collision
             if self.direction == 0:
                 if self.target[0] > self.x_pos and self.turns[0]:
                     self.x_pos += self.speed
