@@ -92,7 +92,7 @@ pinky_box = False
 powerup = False
 eaten_ghost = [False, False, False, False]
 
-ghost_speeds = [3, 2, 3, 2]
+ghost_speeds = [2, 2, 2, 2]
 
 
 #                Right  Left   Up     Down
