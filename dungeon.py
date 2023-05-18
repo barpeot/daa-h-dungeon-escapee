@@ -194,36 +194,36 @@ class Ghost:
     def move_clyde(self):
         # r, l, u, d
         # clyde is going to turn whenever advantageous for pursuit
-        if self.direction == 0:
-            if self.target[0] > self.x_pos and self.turns[0]:
+        if self.direction == 0: # if going right
+            if self.target[0] > self.x_pos and self.turns[0]: # if player is to the right and turning right is allowed, then pursue the player
                 self.x_pos += self.speed
-            elif not self.turns[0]:
-                if self.target[1] > self.y_pos and self.turns[3]:
+            elif not self.turns[0]: # if turning right is not allowed
+                if self.target[1] > self.y_pos and self.turns[3]: # if player is below clyde and turning down is allowed
                     self.direction = 3
                     self.y_pos += self.speed
-                elif self.target[1] < self.y_pos and self.turns[2]:
+                elif self.target[1] < self.y_pos and self.turns[2]: # if player is above clyde and turning up is allowed
                     self.direction = 2
                     self.y_pos -= self.speed
-                elif self.target[0] < self.x_pos and self.turns[1]:
+                elif self.target[0] < self.x_pos and self.turns[1]: # if player is to the left and turning left is allowed
                     self.direction = 1
                     self.x_pos -= self.speed
-                elif self.turns[3]:
+                elif self.turns[3]: # if cannot pursue the player, then do a different turn (down)
                     self.direction = 3
                     self.y_pos += self.speed
-                elif self.turns[2]:
+                elif self.turns[2]: # if cannot pursue the player, then do a different turn (up)
                     self.direction = 2
                     self.y_pos -= self.speed
-                elif self.turns[1]:
+                elif self.turns[1]: # if cannot pursue the player, then do a different turn (left)
                     self.direction = 1
                     self.x_pos -= self.speed
-            elif self.turns[0]:
-                if self.target[1] > self.y_pos and self.turns[3]:
+            elif self.turns[0]: # if the player is not to the right
+                if self.target[1] > self.y_pos and self.turns[3]: # go down
                     self.direction = 3
                     self.y_pos += self.speed
-                if self.target[1] < self.y_pos and self.turns[2]:
+                if self.target[1] < self.y_pos and self.turns[2]: # go up
                     self.direction = 2
                     self.y_pos -= self.speed
-                else:
+                else: # continue going right
                     self.x_pos += self.speed
         elif self.direction == 1:
             if self.target[1] > self.y_pos and self.turns[3]:
