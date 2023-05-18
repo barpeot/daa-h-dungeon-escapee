@@ -47,9 +47,6 @@ pinky_img = pygame.transform.scale(pygame.image.load(f'assets/ghost_images/pink.
 inky_img = pygame.transform.scale(pygame.image.load(f'assets/ghost_images/blue.png'), (45, 45))
 clyde_img = pygame.transform.scale(pygame.image.load(f'assets/ghost_images/orange.png'), (45, 45))
 
-# for i in range (1, 5):
-#     player_images.append(pygame.transform.scale(pygame.image.load(f'assets/player_images/{i}.png'), (45, 45)))
-
 level_game = ' '
 
 player_x = 450
@@ -92,8 +89,6 @@ turns_allowed = [False, False, False, False]
 direction_command = 0
 player_speed = 3
 
-time = 0
-# obtain_key = False
 obtain_key = 0
 
 game_over = False
@@ -845,8 +840,6 @@ while run:
 
         obtain_key, game_won = check_collisions(obtain_key, game_won)
 
-        time += 1 / 60
-
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False
@@ -877,8 +870,6 @@ while run:
                 clyde_x = 800
                 clyde_y = 770
                 clyde_direction = 2
-            
-                score = 0
 
                 obtain_key = 0
 
@@ -918,8 +909,6 @@ while run:
                 clyde_y = 770
                 clyde_direction = 2
             
-                score = 0
-
                 obtain_key = 0
 
                 level = copy.deepcopy(boards)
